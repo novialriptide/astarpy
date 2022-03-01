@@ -49,6 +49,11 @@ class Graph:
             pygame.Vector2(1, 0),
             pygame.Vector2(0, -1),
             pygame.Vector2(0, 1),
+
+            pygame.Vector2(-1, -1),
+            pygame.Vector2(1, 1),
+            pygame.Vector2(1, -1),
+            pygame.Vector2(-1, 1),
         ]
         neighbors = []
 
@@ -65,6 +70,8 @@ class Graph:
         while current in came_from:
             current = came_from[current]
             total_path.append(current)
+        
+        total_path.reverse()
         return total_path
 
     def get_path(self, start: pygame.Vector2, end: pygame.Vector2):
