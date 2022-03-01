@@ -45,22 +45,22 @@ class Graph:
 
     def get_neighbor_nodes(self, node: Node) -> List[Node]:
         possible_neighbors = [
-            pygame.Vector2(-1, 0),
-            pygame.Vector2(1, 0),
-            pygame.Vector2(0, -1),
-            pygame.Vector2(0, 1),
-
-            pygame.Vector2(-1, -1),
-            pygame.Vector2(1, 1),
-            pygame.Vector2(1, -1),
-            pygame.Vector2(-1, 1),
+            {"offset": pygame.Vector2(-1, 0), "corner": False},
+            {"offset": pygame.Vector2(1, 0), "corner": False},
+            {"offset": pygame.Vector2(0, -1), "corner": False},
+            {"offset": pygame.Vector2(0, 1), "corner": False},
+            {"offset": pygame.Vector2(-1, 1), "corner": True},
+            {"offset": pygame.Vector2(1, -1), "corner": True},
+            {"offset": pygame.Vector2(-1, -1), "corner": True},
+            {"offset": pygame.Vector2(1, 1), "corner": True},
         ]
+        
         neighbors = []
 
         for p in possible_neighbors:
-            neighbor_node = self.get_node(p + node.pos)
+            neighbor_node = self.get_node(p["offset"] + node.pos)
             if neighbor_node is not None and not neighbor_node.barrier:
-                neighbors.append(neighbor_node)
+                neighbors.append({"node": neighbor_node, "corner": p["corner"], "offset": p["offset"]})
 
         return neighbors
 
@@ -86,7 +86,6 @@ class Graph:
         start.g = 0
 
         while len(open_nodes) != 0:
-
             def compare(e: Node) -> float:
                 return e.f
 
@@ -99,16 +98,22 @@ class Graph:
             closed_nodes.append(current)
 
             for neighbor in self.get_neighbor_nodes(current):
+                corner = neighbor["corner"]
+                offset = neighbor["offset"]
+                neighbor = neighbor["node"]
                 if neighbor in closed_nodes:
                     continue
-                tentative_g_score = current.g + current.get_node_dist(neighbor)
 
+                tentative_g_score = current.g + current.get_node_dist(neighbor)
                 if neighbor not in open_nodes or tentative_g_score < neighbor.g:
                     came_from[neighbor] = current
                     neighbor.g = tentative_g_score
                     neighbor.f = neighbor.g + neighbor.h
                     if neighbor not in open_nodes:
-                        open_nodes.append(neighbor)
+                        if not corner:
+                            open_nodes.append(neighbor)
+                        elif corner:
+                            
 
         raise Exception("Cannot find path")
 
