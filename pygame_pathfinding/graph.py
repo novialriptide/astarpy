@@ -49,10 +49,6 @@ class Graph:
             {"offset": pygame.Vector2(1, 0), "corner": False},
             {"offset": pygame.Vector2(0, -1), "corner": False},
             {"offset": pygame.Vector2(0, 1), "corner": False},
-            {"offset": pygame.Vector2(-1, 1), "corner": True},
-            {"offset": pygame.Vector2(1, -1), "corner": True},
-            {"offset": pygame.Vector2(-1, -1), "corner": True},
-            {"offset": pygame.Vector2(1, 1), "corner": True},
         ]
         
         neighbors = []
@@ -98,8 +94,6 @@ class Graph:
             closed_nodes.append(current)
 
             for neighbor in self.get_neighbor_nodes(current):
-                corner = neighbor["corner"]
-                offset = neighbor["offset"]
                 neighbor = neighbor["node"]
                 if neighbor in closed_nodes:
                     continue
@@ -110,10 +104,8 @@ class Graph:
                     neighbor.g = tentative_g_score
                     neighbor.f = neighbor.g + neighbor.h
                     if neighbor not in open_nodes:
-                        if not corner:
-                            open_nodes.append(neighbor)
-                        elif corner:
-                            
+                        open_nodes.append(neighbor)
+                                
 
         raise Exception("Cannot find path")
 
