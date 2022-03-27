@@ -8,9 +8,7 @@ import numpy
 
 
 class Graph:
-    def __init__(
-        self, width: int, height: int
-    ) -> None:
+    def __init__(self, width: int, height: int) -> None:
         self.width = width
         self.height = height
         self._nodes = []
@@ -23,12 +21,10 @@ class Graph:
     def pytmx_load(cls, pytmx_map: pytmx.TiledMap):
         width = pytmx_map.width
         height = pytmx_map.height
-        
 
     @property
     def nodes(self) -> List[Node]:
         return self._nodes
-        
 
     def set_barrier(self, pos: numpy.array) -> None:
         self._nodes[self.get_node_index(pos)].barrier = True
@@ -56,13 +52,19 @@ class Graph:
             {"offset": numpy.array([0, -1]), "corner": False},
             {"offset": numpy.array([0, 1]), "corner": False},
         ]
-        
+
         neighbors = []
 
         for p in possible_neighbors:
             neighbor_node = self.get_node(p["offset"] + node.pos)
             if neighbor_node is not None and not neighbor_node.barrier:
-                neighbors.append({"node": neighbor_node, "corner": p["corner"], "offset": p["offset"]})
+                neighbors.append(
+                    {
+                        "node": neighbor_node,
+                        "corner": p["corner"],
+                        "offset": p["offset"],
+                    }
+                )
 
         return neighbors
 
@@ -72,7 +74,7 @@ class Graph:
         while current in came_from:
             current = came_from[current]
             total_path.append(current)
-        
+
         total_path.reverse()
         return total_path
 
@@ -88,6 +90,7 @@ class Graph:
         start.g = 0
 
         while len(open_nodes) != 0:
+
             def compare(e: Node) -> float:
                 return e.f
 
@@ -111,7 +114,6 @@ class Graph:
                     neighbor.f = neighbor.g + neighbor.h
                     if neighbor not in open_nodes:
                         open_nodes.append(neighbor)
-                                
 
         raise Exception("Cannot find path")
 

@@ -33,10 +33,10 @@ while True:
             color = (100, 0, 0)
         else:
             color = (255, 255, 255)
-        
+
         if n in path:
             color = (0, 255, 0)
-        
+
         pygame.draw.rect(
             screen,
             color,
