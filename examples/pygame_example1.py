@@ -1,6 +1,6 @@
 import pygame
 import sys
-import pygame_pathfinding as pf
+import astarpy as pf
 
 g = pf.Graph(20, 20)
 g.set_barrier(pygame.Vector2(4, 2))
