@@ -2,13 +2,14 @@ from typing import List
 
 from .node import Node
 
-import pygame
+import pytmx
 import math
+import numpy
 
 
 class Graph:
     def __init__(
-        self, width: int, height: int, pygame_rects: List[pygame.Rect] = []
+        self, width: int, height: int
     ) -> None:
         self.width = width
         self.height = height
@@ -16,37 +17,44 @@ class Graph:
 
         for h in range(height):
             for w in range(width):
-                self._nodes.append(Node(pygame.Vector2(w, h)))
+                self._nodes.append(Node(numpy.array([w, h])))
+
+    @classmethod
+    def pytmx_load(cls, pytmx_map: pytmx.TiledMap):
+        width = pytmx_map.width
+        height = pytmx_map.height
+        
 
     @property
     def nodes(self) -> List[Node]:
         return self._nodes
+        
 
-    def set_barrier(self, pos: pygame.Vector2) -> None:
+    def set_barrier(self, pos: numpy.array) -> None:
         self._nodes[self.get_node_index(pos)].barrier = True
 
-    def get_node_index(self, pos: pygame.Vector2) -> Node:
+    def get_node_index(self, pos: numpy.array) -> Node:
         i = 0
         for n in self.nodes:
-            if n.pos.x == pos.x and n.pos.y == pos.y:
+            if n.pos[0] == pos[0] and n.pos[1] == pos[1]:
                 return i
             i += 1
 
         return None
 
-    def get_node(self, pos: pygame.Vector2) -> Node:
+    def get_node(self, pos: numpy.array) -> Node:
         for n in self.nodes:
-            if n.pos.x == pos.x and n.pos.y == pos.y:
+            if n.pos[0] == pos[0] and n.pos[1] == pos[1]:
                 return n
 
         return None
 
     def get_neighbor_nodes(self, node: Node) -> List[Node]:
         possible_neighbors = [
-            {"offset": pygame.Vector2(-1, 0), "corner": False},
-            {"offset": pygame.Vector2(1, 0), "corner": False},
-            {"offset": pygame.Vector2(0, -1), "corner": False},
-            {"offset": pygame.Vector2(0, 1), "corner": False},
+            {"offset": numpy.array([-1, 0]), "corner": False},
+            {"offset": numpy.array([1, 0]), "corner": False},
+            {"offset": numpy.array([0, -1]), "corner": False},
+            {"offset": numpy.array([0, 1]), "corner": False},
         ]
         
         neighbors = []
@@ -68,7 +76,7 @@ class Graph:
         total_path.reverse()
         return total_path
 
-    def get_path(self, start: pygame.Vector2, end: pygame.Vector2):
+    def get_path(self, start: numpy.array, end: numpy.array):
         start = self.get_node(start)
         end = self.get_node(end)
 
@@ -113,7 +121,7 @@ class Graph:
         for h in range(self.height):
             line = ""
             for w in range(self.width):
-                node = self.get_node(pygame.Vector2(w, h))
+                node = self.get_node(numpy.array([w, h]))
                 if node.barrier:
                     line += "# "
                 if not node.barrier:

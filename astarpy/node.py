@@ -1,9 +1,8 @@
 import math
-import pygame
-
+import numpy
 
 class Node:
-    def __init__(self, pos: pygame.Vector2) -> None:
+    def __init__(self, pos: numpy.array) -> None:
         self.pos = pos
 
         """
@@ -18,11 +17,11 @@ class Node:
 
     def get_node_dist(self, node) -> None:
         return math.sqrt(
-            (self.pos.x - node.pos.x) ** 2 + (self.pos.y - node.pos.y) ** 2
+            (self.pos[0] - node.pos[0]) ** 2 + (self.pos[1] - node.pos[1]) ** 2
         )
     
     def __str__(self) -> str:
-        return f"Node({self.pos.x}, {self.pos.y}, isbarrier: {self.barrier})"
+        return f"Node({self.pos[0]}, {self.pos[1]}, isbarrier: {self.barrier})"
     
     def __hash__(self):
         return hash(str(self))
@@ -31,4 +30,4 @@ class Node:
         if __o is None:
             return False
 
-        return self.pos.x == __o.pos.x and self.pos.y == __o.pos.y
+        return self.pos[0] == __o.pos[0] and self.pos[1] == __o.pos[1]
