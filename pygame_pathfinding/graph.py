@@ -1,6 +1,4 @@
-from re import I
-from tkinter import W
-from typing import Tuple, List
+from typing import List
 
 from .node import Node
 
