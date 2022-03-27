@@ -6,7 +6,7 @@ setup(
     name="astarpy",
     author="Andrew Hong",
     author_email="novialriptide@gmail.com",
-    url="https://github.com/novialriptide/pygame_pathfinding",
-    packages=["pygame_pathfinding"],
+    url="https://github.com/novialriptide/astarpy",
+    packages=["astarpy"],
     version=str(API_VERSION),
 )
