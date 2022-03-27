@@ -47,7 +47,7 @@ while True:
         start = pygame.time.get_ticks()
         path = g.get_path((2, 1), (15, 17))
         end = pygame.time.get_ticks()
-        print(f"it took {(end - start) / 1000}ms to find a path")
+        print(f"it took {(end - start) / 1000}s to find a path")
         next_path = pygame.time.get_ticks() + ms_to_next_path
 
     for r in rects:
