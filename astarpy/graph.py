@@ -18,9 +18,14 @@ class Graph:
                 self._nodes.append(Node(numpy.array([w, h])))
 
     @classmethod
-    def pytmx_load(cls, pytmx_map: pytmx.TiledMap):
+    def pytmx_load(cls, pytmx_map: pytmx.TiledMap, obj_type):
         width = pytmx_map.width
         height = pytmx_map.height
+        c = cls(width, height)
+        
+        for r in range(height):
+            for c in range(width):
+                pass
 
     @property
     def nodes(self) -> List[Node]:
