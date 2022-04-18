@@ -18,14 +18,16 @@ class Graph:
                 self._nodes.append(Node(numpy.array([w, h])))
 
     @classmethod
-    def pytmx_load(cls, pytmx_map: pytmx.TiledMap, obj_type):
+    def pytmx_load(cls, pytmx_map: pytmx.TiledMap, tile_layer_name: str = "astarpy"):
         width = pytmx_map.width
         height = pytmx_map.height
+        layer = pytmx_map.get_layer_by_name(tile_layer_name)
         c = cls(width, height)
         
         for r in range(height):
             for c in range(width):
-                pass
+                tile = pytmx_map.get_tile_properties(c, r, layer)
+                print(tile)
 
     @property
     def nodes(self) -> List[Node]:
